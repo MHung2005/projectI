@@ -1,0 +1,91 @@
+@startuml
+' Quiz ERD (PlantUML)
+skinparam backgroundColor #FFFFFF
+skinparam ArrowColor #666666
+skinparam entityBorderColor #888888
+skinparam entityBackgroundColor #FDFDFD
+hide circle
+
+title Quiz Data Model — ERD
+
+enum "QuestionType" as QuestionType {
+  short_answer
+  paragraph
+  multiple_choice
+  checkboxes
+  dropdown
+  email
+  number
+  section_header
+}
+
+entity "Quiz" as Quiz {
+  *id: string
+  --
+  title: string
+  description: string?
+  createdAt: date
+  updatedAt: date
+}
+
+entity "QuizQuestion" as QuizQuestion {
+  *id: string
+  --
+  type: QuestionType
+  question: string
+  description: string?
+  required: boolean?
+  explain: string?
+  config: JSON?
+  quizId: string [FK -> Quiz.id]
+}
+
+entity "Option" as Option {
+  *id: string
+  --
+  label: string
+  value: string
+  questionId: string [FK -> QuizQuestion.id]
+}
+
+entity "ValidationRule" as ValidationRule {
+  *id: string
+  --
+  type: (required|minLength|maxLength|pattern|min|max|email)
+  value: any?
+  message: string
+  questionId: string [FK -> QuizQuestion.id]
+}
+
+entity "QuizResponse" as QuizResponse {
+  *quizId: string
+  *userId: string
+  *submittedAt: date
+  --
+  answers: JSON
+}
+
+entity "ResponseAnswer" as ResponseAnswer {
+  *quizId: string [FK -> QuizResponse.quizId]
+  *userId: string [FK -> QuizResponse.userId]
+  *submittedAt: date [FK -> QuizResponse.submittedAt]
+  *questionId: string [FK -> QuizQuestion.id]
+  --
+  value: JSON
+}
+
+' Relationships (crow's foot)
+Quiz ||--o{ QuizQuestion : has
+QuizQuestion ||--o{ Option : has
+QuizQuestion ||--o{ ValidationRule : validates
+Quiz ||--o{ QuizResponse : receives
+QuizResponse ||--o{ ResponseAnswer : contains
+ResponseAnswer }o--|| QuizQuestion : answers
+
+note right of QuizResponse
+  "answers" stores a map (questionId -> value).
+  In relational form, each entry becomes a
+  row in ResponseAnswer.
+end note
+
+@enduml
