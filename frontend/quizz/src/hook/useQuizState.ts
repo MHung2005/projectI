@@ -1,12 +1,11 @@
 "use client";
 import { useState, useMemo } from "react";
 import type { Quiz } from "../quiz-types";
-import type { QuizResponse } from "../quiz-types";
 import { toast } from "sonner";
 import { validateAnswers } from "../core/validateAnswer";
 import { scrollToFirstError } from "../core/scrollToError";    
 
-export function useQuizState(quiz: Quiz, onSubmit?: (response: QuizResponse) => void) {
+export function useQuizState(quiz: Quiz) {
   const [answers, setAnswers] = useState<Record<string, any>>(() => {
     const init: Record<string, any> = {};
     quiz.questions.forEach((q) => (init[q.id] = ""));
@@ -53,55 +52,35 @@ export function useQuizState(quiz: Quiz, onSubmit?: (response: QuizResponse) => 
   }
 
   // Handle submit
-    const handleSubmit = async () => {
-      const result = validateAnswers(quiz, answers, setErrors)
-      if (!result.valid) {
-        toast.error("Please complete all required fields");
-        requestAnimationFrame(() => scrollToFirstError(result.errors));
-        return;
-      }
-  
-      setIsSubmitting(true);
-      try {
-        const response: QuizResponse = {
-          answers,
-          submittedAt: new Date(),
-        };
-  
-        // Call onSubmit callback if provided
-        await onSubmit?.(response);
-  
-        setIsSubmitted(true);
-        toast.success("Quiz submitted successfully!");
-      } catch (error) {
-        console.error("Error submitting quiz:", error);
-        toast.error("Failed to submit quiz. Please try again.");
-      } finally {
-        setIsSubmitting(false);
-      }
-    };
+  const handleSubmit = async () => {
+    const result = validateAnswers(quiz, answers, setErrors);
+    if (!result.valid) {
+      toast.error("Please complete all required fields");
+      requestAnimationFrame(() => scrollToFirstError(result.errors));
+      return;
+    }
 
-    //Handle submit out of time
-    const handleSubmitOutOfTime = async () => {
-      setIsSubmitting(true);
-      try {
-        const response: QuizResponse = {
-          answers,
-          submittedAt: new Date(),
-        };
+    await submitQuiz();
+  };
 
-        // Call onSubmit callback if provided
-        await onSubmit?.(response);
+  // Handle submit out of time (skip validation)
+  const handleSubmitOutOfTime = async () => {
+    await submitQuiz();
+  };
 
-        setIsSubmitted(true);
-        toast.success("Quiz submitted successfully!");
-      } catch (error) {
-        console.error("Error submitting quiz:", error);
-        toast.error("Failed to submit quiz. Please try again.");
-      } finally {
-        setIsSubmitting(false);
-      }
-    };
+  // Common submit logic
+  const submitQuiz = async () => {
+    setIsSubmitting(true);
+    try {
+      setIsSubmitted(true);
+      toast.success("Quiz submitted successfully!");
+    } catch (error) {
+      console.error("Error submitting quiz:", error);
+      toast.error("Failed to submit quiz. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return {
     answers,

@@ -21,7 +21,6 @@ import { useQuizState } from "./hook/useQuizState";
 
 export interface QuizRendererProps {
   quiz: Quiz;
-  onSubmit?: (response: QuizResponse) => void;
   readOnly?: boolean;
   initialAnswers?: Record<string, any>;
   className?: string;
@@ -29,7 +28,6 @@ export interface QuizRendererProps {
 
 export  function QuizRenderer({
   quiz,
-  onSubmit,
   readOnly = false,
   className,
 }: QuizRendererProps) {
@@ -46,7 +44,7 @@ export  function QuizRenderer({
     answeredCount,
     handleSubmit,
     handleSubmitOutOfTime
-  } = useQuizState(quiz, onSubmit);
+  } = useQuizState(quiz);
 
 
   const renderUnsupported = (question: QuizQuestion) => {

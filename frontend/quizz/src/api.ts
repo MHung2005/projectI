@@ -35,7 +35,6 @@ export async function* streamQuizQuestions(message: string): AsyncGenerator<Quiz
         },
         body: JSON.stringify({ 'message': message }),
         signal: ctrl.signal,
-        retry: 0 as any, // dừng lại việc thử lại kết nối tự động
         onopen(response: Response) {
             if (!response.ok) {
                 console.error("Server connection failed", response);
