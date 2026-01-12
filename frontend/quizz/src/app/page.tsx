@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, type FormEvent } from "react";
+import { useState, type FormEvent, useRef, useCallback, useEffect } from "react";
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button";
 import { QuizRenderer } from "../quiz-render";
@@ -10,42 +10,60 @@ import { mlQuiz } from "../example-question/example-ml";
 
 export default function Page() {
   const [message, setMessage] = useState("");
+  const [inputValue, setInputValue] = useState("");
   const [quizQuestion, setQuizQuestion] = useState<Quiz>();
-  const [loading, setLoading] = useState(false);
+  const [loadingPage, setLoadingPage] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const controllerRef = useRef<AbortController | null>(null);
+  const questionsRef = useRef<QuizQuestion[]>([]);
+  const isSubmittingRef = useRef(false);
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = useCallback((e: FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    // Ngăn chặn việc submit trùng lặp
+    if  (isSubmittingRef.current || loadingPage) return;
+    
+    isSubmittingRef.current = true;
+    setLoadingPage(true);
     setError(null);
     setQuizQuestion(undefined);
-    controllerRef.current = new AbortController();
+    questionsRef.current = [];
+    
+    // Chỉ lưu message, useEffect sẽ tự động gọi
+    setMessage(inputValue);
+  }, [inputValue, loadingPage]);
 
-    try {   
-        const questions: QuizQuestion[] = [];
-            // for await (const q of streamQuizQuestions(message)) {
-            //     questions.push(q);
-            //     console.log("Received questions:", questions);
-            //     setQuizQuestion({questions} as Quiz);
-            // }
-        setQuizQuestion(mlQuiz);
-    } catch (error) {
+  // Tách riêng logic streaming
+  useEffect(() => {
+    if (!loadingPage || message === "") return;
+
+    const fetchQuestions = async () => {
+      try {
+        for await (const q of streamQuizQuestions(message)) {
+          questionsRef.current.push(q);
+          console.log("Received questions:", questionsRef.current);
+          // Hiển thị lần lượt các câu hỏi
+          setQuizQuestion({questions: [...questionsRef.current]} as Quiz);
+        }
+      } catch (error) {
         setError("An error occurred while fetching quiz questions.");
-    } finally {
-        setLoading(false);
-    }
-  }
+      } finally {
+        setLoadingPage(false);
+        isSubmittingRef.current = false;
+      }
+    };
+
+    fetchQuestions();
+  }, [message, loadingPage]);
 
   return (
     <>
         <div style={{margin:'50px'}}>
              <form id="question" onSubmit={handleSubmit}>
                 <Input 
-                    value={message}
-                    onChange={(e)=>setMessage(e.target.value)}
+                    value={inputValue}
+                    onChange={(e)=>setInputValue(e.target.value)}
                     placeholder="Enter your question"/>
-                <Button type="submit" form="question">Send</Button>
+                <Button type="submit" form="question" disabled={loadingPage}>Send</Button>
              </form>
             <div>
                 {quizQuestion && <QuizRenderer quiz={quizQuestion} />}

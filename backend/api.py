@@ -20,54 +20,49 @@ class GraphInput(BaseModel):
 
 @app.post("/run")
 async def run_graph(input: GraphInput):
-    state = {'prompt': input.message} #lúc tích hợp có thể mở rộng thêm các tham số khác như dataset_ids, doc_ids
+    state = {'prompt': input.message}
 
     async def event_generator():
-        stream_closed = False
-        payload_count = 0
         try:
-            for output in graph.stream(state):
-                # Kiểm tra nếu client đã disconnect
-                if stream_closed:
-                    break
-
-                # Bỏ qua các chunk không cần
+            sent_ids = set()  # Theo dõi những ID đã gửi
+            async for output in graph.astream(state):
+                # Bỏ qua các chunk không cần thiết từ các node khác
                 if "retrival" in output:
                     continue
 
-                payload = None
+                # Trích xuất payload từ node 'llm'
                 if "llm" in output and "output" in output["llm"]:
-                    payload = output["llm"]["output"]
-                elif all(k in output for k in ("id", "type", "question")):
-                    payload = output
-                else:
-                    continue
-
-                # Ép về JSON hợp lệ
-                try:
-                    json_data = json.dumps(payload, ensure_ascii=False)
-                    print("Serialized output:", json_data)
-                    yield f"data: {json_data}\n\n"
-                    payload_count += 1
+                    output_list = output["llm"]["output"]
                     
-                    # Dừng sau 3 payload
-                    if payload_count >= 3: #sửa từ 10 thành 3 để test nhanh hơn
-                        break
+                    # Gửi các câu hỏi MỚI (những câu chưa gửi)
+                    for idx, payload in enumerate(output_list):
+                        payload_id = payload.get('id') if isinstance(payload, dict) else None
                         
-                except Exception as exc:
-                    print("Serialize error:", exc)
+                        # Chỉ gửi nếu là câu hỏi mới
+                        if payload_id and payload_id not in sent_ids:
+                            sent_ids.add(payload_id)
+                            try:
+                                json_data = json.dumps(payload, ensure_ascii=False)
+                                print(f"  → Sending NEW question: {json_data[:80]}...")
+                                yield f"data: {json_data}\n\n"
+                            except Exception as exc:
+                                print(f"  → Serialize error: {exc}")
+                                continue
+                        else:
+                            print(f"      → Skipping (already sent)")
+                else:
+                    print("  → No llm output")
                     continue
+            
+            # Sau khi vòng lặp for kết thúc một cách tự nhiên, gửi tín hiệu END
+            print(f"DEBUG - Loop ended. Total unique questions sent: {len(sent_ids)}")
+            print("Stream ended naturally.")
+            yield "data: [[END]]\n\n"
 
         except GeneratorExit:
             print("Client disconnected")
-            stream_closed = True
         except Exception as e:
             print(f"Stream error: {e}")
             yield f"data: {json.dumps({'error': str(e)})}\n\n"
-        
-        # Chỉ gửi END khi đã đủ 3 payload
-        if payload_count >= 3: #sửa từ 10 thành 3 để test nhanh hơn
-            print("Stream ended")
-            yield "data: [[END]]\n\n"
 
     return StreamingResponse(event_generator(), media_type="text/event-stream")

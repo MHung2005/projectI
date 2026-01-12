@@ -53,8 +53,8 @@ export  function QuizRenderer({
     console.warn("Unsupported question type received:", (question as any)?.type, question);
     return (
       <div className="p-4 rounded-md border border-yellow-300 bg-yellow-50 text-yellow-800">
-        Hệ thống không hỗ trợ: {(question as any)?.type}
-        Vui lòng thử nhập lại câu hỏi khác.
+        <p>Hệ thống hết token của gemini.</p>
+        <p>Vui lòng chờ một lát và thử nhập lại câu hỏi khác.</p>
       </div>
     );
   };

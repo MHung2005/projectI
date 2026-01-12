@@ -3,6 +3,7 @@ import json
 import requests
 import os
 from dotenv import load_dotenv
+from uuid import uuid4  
 
 def call_api(state: State):
     load_dotenv()
@@ -32,8 +33,8 @@ def call_api(state: State):
     data = payload.get('data', {}) if isinstance(payload, dict) else {}
     chunks = data.get('chunks', []) if isinstance(data, dict) else []
 
-    # Lấy tối đa 5 chunks đầu tiên và trích xuất 'content'
-    selected = chunks[:5] if isinstance(chunks, list) else []
+    # Lấy tối đa 1 chunks đầu tiên và trích xuất 'content'
+    selected = chunks[:1] if isinstance(chunks, list) else []
     contents = []
     for item in selected:
         if isinstance(item, dict):
@@ -43,6 +44,8 @@ def call_api(state: State):
 
     # Kết hợp các nội dung thành một chuỗi duy nhất
     context_text = "\n\n".join(contents)
+    req_id = uuid4()
+    print("Retrieved context111111:", context_text,"  ", req_id)
     return {'context': context_text}
 
 # def main():

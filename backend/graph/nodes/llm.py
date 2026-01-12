@@ -72,7 +72,7 @@ def call_llm(state: State):
         temperature=0.4,
         max_tokens=None,
         timeout=None,
-        max_retries=2,
+        max_retries=0,
         streaming=True,
         api_key=api_key
     )
@@ -88,8 +88,8 @@ def call_llm(state: State):
         },
         HumanMessage(content=f"""
             Hãy tạo 3 câu hỏi dựa trên nội dung sau:
-            Nội dung bài học: {{state['context']}}
-            Yêu cầu câu hỏi: {{state['prompt']}}
+            Nội dung bài học: {state['context']}
+            Yêu cầu câu hỏi: {state['prompt']}
 
             **CẤU TRÚC DỮ LIỆU CHUNG (QuestionBase):**
             Tất cả các câu hỏi phải có các trường:
@@ -124,10 +124,10 @@ def call_llm(state: State):
             """)
     ]
                             
-
-    for object in stream_json_objects(llm, messages):
-      answer = object
-      yield {'output': answer}
+    all_questions = []
+    for new_question in stream_json_objects(llm, messages):
+      all_questions.append(new_question)
+      yield {'output': all_questions[:]}
 
 
 # if __name__ == "__main__":

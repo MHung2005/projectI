@@ -25,3 +25,6 @@ The output image will be created alongside the source file.
 ## Notes
 - Backend endpoint streams SSE from the orchestrated LangGraph that first retrieves context via RAGFlow then generates quiz questions via Google Gemini.
 - Frontend consumes SSE (via `fetch-event-source`), renders questions, and manages state and validation.
+
+## Related Docs
+- Quiz configuration and limits: [docs/quiz-configuration.md](docs/quiz-configuration.md)
