@@ -4,7 +4,7 @@ import { useState, type FormEvent, useRef, useEffect } from "react";
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button";
 import { QuizRenderer } from "../quiz-render";
-import { type Quiz,  type QuizQuestion } from "../quiz-types";
+import { QuizQuestionSchema, type Quiz,  type QuizQuestion } from "../quiz-types";
 import { streamQuizQuestions } from "../api";
 import { mlQuiz } from "../example-question/example-ml";
 
@@ -46,6 +46,7 @@ export default function Page() {
     }
 
     fetchQuestion();
+    //setQuizQuestion(mlQuiz);
   },[submit])
 
   return (
