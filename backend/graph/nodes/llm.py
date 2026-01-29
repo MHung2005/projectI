@@ -129,22 +129,3 @@ def call_llm(state: State):
       all_questions.append(new_question)
       yield {'output': all_questions[:]}
 
-
-# if __name__ == "__main__":
-#     test_state = {
-#         'prompt': 'Tạo một bài quiz về các quốc gia châu Âu.',
-#         'context': 'Các quốc gia châu Âu bao gồm Pháp, Đức, Ý, Tây Ban Nha, và nhiều quốc gia khác với lịch sử và văn hóa phong phú.'
-#     }
-#     for result in call_llm(test_state):
-#         print(result)
-
-# interface Quiz {{
-                    #   id: string;
-                    #   title: string;
-                    #   description?: string;
-                    #   questions: QuizQuestion[];
-                    #   createdAt: string; // ISO date
-                    #   updatedAt: string; // ISO date
-                    # }}
-            #     2. ParagraphQuestion (type: "paragraph"):
-            # {{ "id": string, "type": "paragraph", "question": string, "config": {{ "rows": number, "minWords": number, "maxWords": number, "showWordCount": boolean }} }}

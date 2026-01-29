@@ -5,7 +5,6 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 
-# Khởi tạo ứng dụng FastAPI
 app = FastAPI()
 
 # Thêm middleware cho CORS để cho phép frontend gọi API
@@ -108,6 +107,3 @@ async def run_test_graph(input: GraphInput):
 
     # Trả về một StreamingResponse để gửi dữ liệu từng phần
     return StreamingResponse(event_generator(), media_type="text/event-stream")
-
-# Để chạy file này, bạn dùng lệnh:
-# uvicorn api_test:app --reload

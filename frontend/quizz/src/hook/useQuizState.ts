@@ -32,11 +32,11 @@ export function useQuizState(quiz: Quiz) {
     ).length;
   }, [answers]);
 
-  // Handle answer change
+  // Xử lý thay đổi câu trả lời
   const handleAnswerChange = (questionId: string, value: any) => {
     setAnswers((prev) => ({ ...prev, [questionId]: value }));
 
-    // Clear error for this question
+    // Xóa lỗi nếu có
     setErrors((prev) => {
       const newErrors = { ...prev };
       delete newErrors[questionId];
@@ -51,7 +51,7 @@ export function useQuizState(quiz: Quiz) {
     }));
   }
 
-  // Handle submit
+  // Xử lý submit với validation
   const handleSubmit = async () => {
     const result = validateAnswers(quiz, answers, setErrors);
     if (!result.valid) {
@@ -63,12 +63,12 @@ export function useQuizState(quiz: Quiz) {
     await submitQuiz();
   };
 
-  // Handle submit out of time (skip validation)
+  // Xử lý submit khi hết thời gian
   const handleSubmitOutOfTime = async () => {
     await submitQuiz();
   };
 
-  // Common submit logic
+  // Hàm submit quiz
   const submitQuiz = async () => {
     setIsSubmitting(true);
     try {

@@ -1,6 +1,6 @@
 import z from "zod";
 
-// Question types enum
+// Question types
 export enum QuestionType {
   SHORT_ANSWER = "short_answer",
   PARAGRAPH = "paragraph",
@@ -12,17 +12,15 @@ export enum QuestionType {
   SECTION_HEADER = "section_header",
 }
 
-// Option for multiple choice/checkbox/dropdown questions
+// Option cho các câu hỏi lựa chọn
 export interface Option {
   id: string;
   label: string;
   value: string;
 }
 
-/**
- * Unified question base that includes both metadata (definition/config)
- * and runtime/component props (value, onChange, disabled, error, etc.)
- */
+
+// Cấu trúc câu hỏi
 interface QuestionBase {
   id: string;
   type: QuestionType;
@@ -145,7 +143,7 @@ export interface ValidationRule {
 
 export type ValidatorFunction = (value: any) => string | null;
 
-// Zod schemas for runtime validation (keeps basic shape; still accepts config as record)
+// Zod schemas cho validation và parsing
 export const QuizQuestionSchema = z.object({
   id: z.string(),
   type: z.nativeEnum(QuestionType),

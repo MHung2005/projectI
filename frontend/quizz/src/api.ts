@@ -4,7 +4,7 @@ import { type QuizQuestion } from './quiz-types';
 let currentAbortController: AbortController | null = null;
 
 export async function* streamQuizQuestions(message: string): AsyncGenerator<QuizQuestion, void> {
-    // Cancel any existing request
+    // Nếu đã có luồng trước đó, hủy nó đi
     if (currentAbortController) {
         currentAbortController.abort();
     }

@@ -18,7 +18,7 @@ def call_api(state: State):
     }
 
     prompt={
-        'question': state['prompt'], #"Overall system architecture"
+        'question': state['prompt'],
         'dataset_ids':  ['d2b6253297c211f0b9d2c222576e005e'], #state.get('dataset_ids', []),
         'document_ids': state.get('doc_ids', []) #['dde3d636a03011f0a11e6ab5872eab3f']
     }
@@ -45,17 +45,6 @@ def call_api(state: State):
     # Kết hợp các nội dung thành một chuỗi duy nhất
     context_text = "\n\n".join(contents)
     req_id = uuid4()
-    print("Retrieved context111111:", context_text,"  ", req_id)
+    print("Retrieved context:", context_text,"  ", req_id)
     return {'context': context_text}
 
-# def main():
-#     test_state = {
-#         'prompt': 'Linear Regression là gì?',
-#         'doc_ids': []
-#     }
-#     result = call_api(test_state)
-#     print(result)
-
-# if __name__ == "__main__":
-#     main()
-    

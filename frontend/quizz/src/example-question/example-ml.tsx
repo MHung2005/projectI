@@ -50,50 +50,50 @@ export const mlQuiz: Quiz = {
       correctAnswer: "human_tasks",
       explain: "Trí tuệ nhân tạo (AI) là việc lập trình máy tính để thực hiện các nhiệm vụ giống con người như nhận diện, học tập và ra quyết định.",
     },
-    // // CHECKBOXES
-    // {
-    //   id: "q3_var_rules",
-    //   type: QuestionType.CHECKBOXES,
-    //   question: "Theo nội dung bài học, những quy tắc nào sau đây áp dụng cho việc đặt tên biến?",
-    //   description: "Chọn tất cả các đáp án đúng.",
-    //   required: true,
-    //   config: {
-    //     minSelections: 1,
-    //     options: [
-    //       {
-    //         id: "rule_1",
-    //         label: "Không bắt đầu bằng số",
-    //         value: "không bắt đầu bằng số"
-    //       },
-    //       {
-    //         id: "rule_2",
-    //         label: "Có thể chứa bất kỳ ký tự đặc biệt nào",
-    //         value: "có thể chứa bất kỳ ký tự đặc biệt nào"
-    //       },
-    //       {
-    //         id: "rule_3",
-    //         label: "Không trùng với từ khóa của ngôn ngữ lập trình",
-    //         value: "không trùng với từ khóa của ngôn ngữ lập trình"
-    //       },
-    //       {
-    //         id: "rule_4",
-    //         label: "Chỉ được chứa chữ cái viết thường",
-    //         value: "chỉ được chứa chữ cái viết thường"
-    //       },
-    //       {
-    //         id: "rule_5",
-    //         label: "Không chứa ký tự đặc biệt (trừ dấu gạch dưới)",
-    //         value: "không chứa ký tự đặc biệt (trừ dấu gạch dưới)"
-    //       }
-    //     ]
-    //   },
-    //   correctAnswer: [
-    //     "không bắt đầu bằng số",
-    //     "không trùng với từ khóa của ngôn ngữ lập trình",
-    //     "không chứa ký tự đặc biệt (trừ dấu gạch dưới)"
-    //   ],
-    //   explain: "Bài học đã liệt kê rõ các quy tắc: 'không bắt đầu bằng số, không chứa ký tự đặc biệt (trừ dấu gạch dưới), và không trùng với từ khóa của ngôn ngữ lập trình.' Việc tuân thủ các quy tắc này là rất quan trọng để đảm bảo mã nguồn hợp lệ và dễ đọc, tránh lỗi cú pháp và xung đột với các thành phần khác của ngôn ngữ. Lựa chọn 'Có thể chứa bất kỳ ký tự đặc biệt nào' và 'Chỉ được chứa chữ cái viết thường' là sai vì chúng mâu thuẫn với các quy tắc đã nêu."
-    // },
+    // CHECKBOXES
+    {
+      id: "q3_var_rules",
+      type: QuestionType.CHECKBOXES,
+      question: "Theo nội dung bài học, những quy tắc nào sau đây áp dụng cho việc đặt tên biến?",
+      description: "Chọn tất cả các đáp án đúng.",
+      required: true,
+      config: {
+        minSelections: 1,
+        options: [
+          {
+            id: "rule_1",
+            label: "Không bắt đầu bằng số",
+            value: "không bắt đầu bằng số"
+          },
+          {
+            id: "rule_2",
+            label: "Có thể chứa bất kỳ ký tự đặc biệt nào",
+            value: "có thể chứa bất kỳ ký tự đặc biệt nào"
+          },
+          {
+            id: "rule_3",
+            label: "Không trùng với từ khóa của ngôn ngữ lập trình",
+            value: "không trùng với từ khóa của ngôn ngữ lập trình"
+          },
+          {
+            id: "rule_4",
+            label: "Chỉ được chứa chữ cái viết thường",
+            value: "chỉ được chứa chữ cái viết thường"
+          },
+          {
+            id: "rule_5",
+            label: "Không chứa ký tự đặc biệt (trừ dấu gạch dưới)",
+            value: "không chứa ký tự đặc biệt (trừ dấu gạch dưới)"
+          }
+        ]
+      },
+      correctAnswer: [
+        "không bắt đầu bằng số",
+        "không trùng với từ khóa của ngôn ngữ lập trình",
+        "không chứa ký tự đặc biệt (trừ dấu gạch dưới)"
+      ],
+      explain: "Bài học đã liệt kê rõ các quy tắc: 'không bắt đầu bằng số, không chứa ký tự đặc biệt (trừ dấu gạch dưới), và không trùng với từ khóa của ngôn ngữ lập trình.' Việc tuân thủ các quy tắc này là rất quan trọng để đảm bảo mã nguồn hợp lệ và dễ đọc, tránh lỗi cú pháp và xung đột với các thành phần khác của ngôn ngữ. Lựa chọn 'Có thể chứa bất kỳ ký tự đặc biệt nào' và 'Chỉ được chứa chữ cái viết thường' là sai vì chúng mâu thuẫn với các quy tắc đã nêu."
+    },
 
   
 
