@@ -49,7 +49,7 @@ export function ShortAnswer({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      shortAnswer: "",
+      shortAnswer: value ?? "",
     },
   })
 
@@ -84,7 +84,7 @@ export function ShortAnswer({
       onFlag={onFlag ?? (() => {})}
     >
       <CardContent>
-        <form id={`form-rhf-input ${index}`} onSubmit={form.handleSubmit(onSubmit)}>
+        <form id={`form-rhf-input-${index}`} onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
             <Controller
               name="shortAnswer"
@@ -108,7 +108,7 @@ export function ShortAnswer({
       </CardContent>
       <CardFooter>
         <Field orientation="horizontal">
-          <Button type="submit" form={`form-rhf-input ${index}`}>
+          <Button type="submit" form={`form-rhf-input-${index}`}>
             Save
           </Button>
         </Field>

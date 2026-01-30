@@ -12,7 +12,7 @@ export async function* streamQuizQuestions(message: string): AsyncGenerator<Quiz
     const ctrl = new AbortController();
     currentAbortController = ctrl;
 
-    const STREAM_TIMEOUT_MS = 500000;
+    const STREAM_TIMEOUT_MS = 50000;
 
     const dataQueue: (QuizQuestion | 'END' | 'ERROR')[] = [];
 

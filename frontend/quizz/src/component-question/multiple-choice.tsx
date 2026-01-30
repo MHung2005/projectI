@@ -83,8 +83,8 @@ export function MultipleChoice({
             flagButton={flagButton}
             onFlag={onFlag ?? (() => {})}
           >
-      <CardContent>
-          <form id={`form-rhf-radiogroup ${index}`} onSubmit={form.handleSubmit(onSubmit)}>
+        <CardContent>
+          <form id={`form-rhf-radiogroup-${index}`} onSubmit={form.handleSubmit(onSubmit)}>
                 <Controller
                   name="plan"
                   control={form.control}
@@ -114,7 +114,7 @@ export function MultipleChoice({
       </CardContent>
       <CardFooter>
           <Field orientation="horizontal">
-            <Button type="submit" form={`form-rhf-radiogroup ${index}`}>
+            <Button type="submit" form={`form-rhf-radiogroup-${index}`}>
               Save
             </Button>
           </Field>

@@ -9,7 +9,7 @@ def call_api(state: State):
     load_dotenv()
     api_key = os.getenv("api_key_ragflow")
 
-    api_url='https://ragflow.everlearners.io/api/v1/retrieval'
+    api_url='https://ragflow-horseai.everlearners.io/api/v1/retrieval'
     
 
     headers = {
@@ -19,8 +19,9 @@ def call_api(state: State):
 
     prompt={
         'question': state['prompt'],
-        'dataset_ids':  ['d2b6253297c211f0b9d2c222576e005e'], #state.get('dataset_ids', []),
-        'document_ids': state.get('doc_ids', []) #['dde3d636a03011f0a11e6ab5872eab3f']
+        'dataset_ids':  ['fd90a2a4fd3511f0a4c6e2d837310c58'], #state.get('dataset_ids', []),
+        'page_size': 1
+        #'document_ids': state.get('doc_ids', []) #['dde3d636a03011f0a11e6ab5872eab3f']
     }
 
     response = requests.post(api_url, headers=headers, json=prompt)

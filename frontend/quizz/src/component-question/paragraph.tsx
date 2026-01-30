@@ -49,7 +49,7 @@ export function Paragraph({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      about: "",
+      about: value ?? "",
     },
   })
 
@@ -84,7 +84,7 @@ export function Paragraph({
       onFlag={onFlag ?? (() => {})}
     >
       <CardContent>
-        <form id={`form-rhf-textarea ${index}`} onSubmit={form.handleSubmit(onSubmit)}>
+        <form id={`form-rhf-textarea-${index}`} onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
             <Controller
               name="about"
@@ -109,7 +109,7 @@ export function Paragraph({
       </CardContent>
       <CardFooter>
         <Field orientation="horizontal">
-          <Button type="submit" form={`form-rhf-textarea ${index}`}>
+          <Button type="submit" form={`form-rhf-textarea-${index}`}>
             Save
           </Button>
         </Field>

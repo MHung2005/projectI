@@ -20,7 +20,8 @@ class GraphInput(BaseModel):
 
 @app.post("/run")
 async def run_graph(input: GraphInput):
-    state = {'prompt': input.message}
+    # Ensure default context so downstream nodes don't KeyError
+    state = {'prompt': input.message, 'context': ""}
 
     async def event_generator():
         try:

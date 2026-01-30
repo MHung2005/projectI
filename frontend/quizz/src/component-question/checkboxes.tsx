@@ -93,7 +93,7 @@ export function Checkboxes(props: CheckboxesQuestion) {
         onFlag={onFlag ?? (() => {})}
       >
           <CardContent>
-            <form id={`form-rhf-checkbox ${index}`} onSubmit={form.handleSubmit(onSubmit)}>
+            <form id={`form-rhf-checkbox-${index}`} onSubmit={form.handleSubmit(onSubmit)}>
               <Controller
                 name="tasks"
                 control={form.control}
@@ -148,7 +148,7 @@ export function Checkboxes(props: CheckboxesQuestion) {
             </form>
           </CardContent>
           <CardFooter>
-            <Button type="submit" form={`form-rhf-checkbox ${index}`}>
+            <Button type="submit" form={`form-rhf-checkbox-${index}`}>
               Save
             </Button>
           </CardFooter>

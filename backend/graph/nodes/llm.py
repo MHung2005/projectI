@@ -88,7 +88,6 @@ def call_llm(state: State):
         },
         HumanMessage(content=f"""
             Hãy tạo 3 câu hỏi dựa trên nội dung sau:
-            Nội dung bài học: {state['context']}
             Yêu cầu câu hỏi: {state['prompt']}
 
             **CẤU TRÚC DỮ LIỆU CHUNG (QuestionBase):**

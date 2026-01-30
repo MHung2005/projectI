@@ -59,7 +59,7 @@ export function Dropdown({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      dropdown: "",
+      dropdown: value ?? "",
     },
   })
   
@@ -94,7 +94,7 @@ export function Dropdown({
       onFlag={onFlag ?? (() => {})}
     >
       <CardContent>
-        <form id={`form-rhf-select ${index}`} onSubmit={form.handleSubmit(onSubmit)}>
+        <form id={`form-rhf-select-${index}`} onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
             <Controller
               name="dropdown"
@@ -134,7 +134,7 @@ export function Dropdown({
       </CardContent>
         <CardFooter>
          <Field orientation="horizontal">
-           <Button type="submit" form={`form-rhf-select ${index}`}>
+           <Button type="submit" form={`form-rhf-select-${index}`}>
              Save
            </Button>
          </Field>
